@@ -21,8 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             
             let window = UIWindow(windowScene: windowScene)
-                       
+                   
+            // Tab Bar Setup    
             let tabBarController = setupTabBar()
+            
             window.rootViewController = tabBarController
             self.window = window
             self.window?.makeKeyAndVisible()
