@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0057F3E523E9E52800F9329E /* LabelCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057F3E323E9E52800F9329E /* LabelCollectionViewCell.swift */; };
+		0057F3E623E9E52800F9329E /* CollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0057F3E423E9E52800F9329E /* CollectionViewWaterfallLayout.swift */; };
 		0071230B23E57D0200E24A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0071230A23E57D0200E24A74 /* AppDelegate.swift */; };
 		0071230D23E57D0200E24A74 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0071230C23E57D0200E24A74 /* SceneDelegate.swift */; };
 		0071230F23E57D0200E24A74 /* HomePageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0071230E23E57D0200E24A74 /* HomePageVC.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0057F3E323E9E52800F9329E /* LabelCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelCollectionViewCell.swift; sourceTree = "<group>"; };
+		0057F3E423E9E52800F9329E /* CollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
 		0071230723E57D0200E24A74 /* UserInterface.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserInterface.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0071230A23E57D0200E24A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0071230C23E57D0200E24A74 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +82,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0057F3E223E9E52800F9329E /* CustomViewLayout */ = {
+			isa = PBXGroup;
+			children = (
+				0057F3E323E9E52800F9329E /* LabelCollectionViewCell.swift */,
+				0057F3E423E9E52800F9329E /* CollectionViewWaterfallLayout.swift */,
+			);
+			path = CustomViewLayout;
+			sourceTree = "<group>";
+		};
 		007122FE23E57D0100E24A74 = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +116,7 @@
 			children = (
 				0071230A23E57D0200E24A74 /* AppDelegate.swift */,
 				0071230C23E57D0200E24A74 /* SceneDelegate.swift */,
+				0057F3E223E9E52800F9329E /* CustomViewLayout */,
 				0071230E23E57D0200E24A74 /* HomePageVC.swift */,
 				00E78D2623E89CA600E5AACE /* FollowersVC.swift */,
 				0071231023E57D0200E24A74 /* Main.storyboard */,
@@ -263,9 +277,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0071230F23E57D0200E24A74 /* HomePageVC.swift in Sources */,
+				0057F3E523E9E52800F9329E /* LabelCollectionViewCell.swift in Sources */,
 				00E78D2723E89CA600E5AACE /* FollowersVC.swift in Sources */,
 				0071230B23E57D0200E24A74 /* AppDelegate.swift in Sources */,
 				0071230D23E57D0200E24A74 /* SceneDelegate.swift in Sources */,
+				0057F3E623E9E52800F9329E /* CollectionViewWaterfallLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

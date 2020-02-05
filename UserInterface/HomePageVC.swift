@@ -9,8 +9,8 @@
 import UIKit
 
 class HomePageVC: UIViewController {
-
-    var collectionView: UICollectionView!
+    
+    weak var collectionView: UICollectionView!
     
     lazy var cellSizes: [CGSize] = {
         var cellSizes = [CGSize]()
@@ -22,97 +22,106 @@ class HomePageVC: UIViewController {
         }
         
         return cellSizes
-    }()    
+    }()
     
-    override func loadView() { 
+    override func loadView() {
         super.loadView()
         
-        let collectionView = setupCustomCollectionView()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewWaterfallLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            self.view.topAnchor.constraint(equalTo: collectionView.topAnchor),
-            self.view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            self.view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
-            self.view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
-        self.collectionView = collectionView        
-        
+        self.collectionView = collectionView
     }
-        
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .red
+        
+        self.collectionView.backgroundColor = .white
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
+        
+        self.collectionView.register(MyCell.self, forCellWithReuseIdentifier: "MyCell")
+
     }
     
 }
 
-// MARK: - UI Setup
-extension HomePageVC {
+extension HomePageVC: UICollectionViewDataSource {
     
-    func setupCustomCollectionView() -> UICollectionView {
-        var colView = UICollectionView()
-        var layout = CollectionViewWaterfallLayout()
-        
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.headerInset = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-        layout.headerHeight = 50
-        layout.footerHeight = 20
-        layout.minimumColumnSpacing = 10
-        layout.minimumInteritemSpacing = 10      
-        
-        colView.collectionViewLayout = layout
-        colView.register(LabelCollectionViewCell.self, forCellWithReuseIdentifier: LabelCollectionViewCell.identifier)
-        colView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: CollectionViewWaterfallElementKindSectionHeader, withReuseIdentifier: "Header")
-        colView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: CollectionViewWaterfallElementKindSectionFooter, withReuseIdentifier: "Footer")        
-        
-        return colView
-    }
-    
-}
-
-// MARK: - UICollectionViewDataSource
-extension ViewController: UICollectionViewDataSource {
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellSizes.count
+        return 80
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {   /************************************/
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LabelCollectionViewCell.identifier, for: indexPath) as! LabelCollectionViewCell
-        
-        cell.label.text = String(indexPath.row)
-        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as! MyCell
+        cell.textLabel.text = String(indexPath.row + 1)
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let reusableView: UICollectionReusableView?
-        
-        switch kind {
-        case CollectionViewWaterfallElementKindSectionHeader:
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath)
-            header.backgroundColor = .cyan
-            reusableView = header
-        case CollectionViewWaterfallElementKindSectionFooter:
-            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath)
-            footer.backgroundColor = .blue
-            reusableView = footer
-        default:
-            reusableView = nil
-        }
-        
-        return reusableView!
-    }
 }
 
+extension HomePageVC: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row + 1 )
+    }
+    
+}
 
-// MARK: - CollectionViewWaterfallLayoutDelegate
-extension ViewController: CollectionViewWaterfallLayoutDelegate {
+// MARK: - CollectionViewWaterfallLayoutDelegate (Replace CollectionViewFlow)
+extension HomePageVC: CollectionViewWaterfallLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return cellSizes[indexPath.item]
     }
 }
+
+// MARK: Cell
+class MyCell: UICollectionViewCell {
+    weak var textLabel: UILabel!
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        let textLabel = UILabel(frame: .zero)
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(textLabel)
+        NSLayoutConstraint.activate([
+            textLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            textLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            textLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            textLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+        ])
+        self.textLabel = textLabel
+        
+        self.contentView.backgroundColor = .cyan
+        self.textLabel.textAlignment = .center
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+        fatalError("Interface Builder is not supported!")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        self.textLabel.text = nil
+    }
+}
+

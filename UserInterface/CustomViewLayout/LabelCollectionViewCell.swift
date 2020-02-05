@@ -9,6 +9,5 @@
 import UIKit
 
 class LabelCollectionViewCell: UICollectionViewCell {
-    static var identifier: String = "Cell"
-    var label: UILabel!
+    @IBOutlet weak var label: UILabel!
 }
