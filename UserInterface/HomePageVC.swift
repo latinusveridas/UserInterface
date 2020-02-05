@@ -10,6 +10,8 @@ import UIKit
 
 class HomePageVC: UIViewController {
     
+    weak var headerFrame: UIView!
+    var headerSize: CGFloat! = 130
     weak var collectionView: UICollectionView!
     
     lazy var cellSizes: [CGSize] = {
@@ -24,19 +26,35 @@ class HomePageVC: UIViewController {
         return cellSizes
     }()
     
+    lazy var picCol: [UIImage] = {
+        let col = [
+            UIImage(named: "rolex1", in: Bundle.main, compatibleWith: nil)!,
+            UIImage(named: "rolex2", in: Bundle.main, compatibleWith: nil)!,
+            UIImage(named: "rolex3", in: Bundle.main, compatibleWith: nil)!
+        ]
+        return col
+    }()
+    
     override func loadView() {
         super.loadView()
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: CollectionViewWaterfallLayout())
+        setupHeader()
+        headerFrame.backgroundColor = .brown
+        
+        let layout = CollectionViewWaterfallLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: self.headerFrame.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
         self.collectionView = collectionView
+        
+        
     }
             
     override func viewDidLoad() {
@@ -65,7 +83,8 @@ extension HomePageVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MyCell", for: indexPath) as! MyCell
-        cell.textLabel.text = String(indexPath.row + 1)
+        //cell.textLabel.text = String(indexPath.row + 1)
+        cell.imgView.image = self.picCol.randomElement()
         return cell
     }
     
@@ -86,26 +105,52 @@ extension HomePageVC: CollectionViewWaterfallLayoutDelegate {
     }
 }
 
+extension HomePageVC {
+    
+    func setupHeader() {
+        
+        let headerFrame = UIView(frame: .zero)
+        self.view.addSubview(headerFrame)
+        headerFrame.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            headerFrame.topAnchor.constraint(equalTo: self.view.topAnchor),
+            headerFrame.heightAnchor.constraint(equalToConstant: headerSize),
+            headerFrame.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            headerFrame.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+        ])
+        self.headerFrame = headerFrame
+        
+        
+    }
+    
+}
+
+
+
 // MARK: Cell
 class MyCell: UICollectionViewCell {
     weak var textLabel: UILabel!
+    weak var imgView: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        let textLabel = UILabel(frame: .zero)
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(textLabel)
+                
+        let imgView = UIImageView()
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(imgView)
         NSLayoutConstraint.activate([
-            textLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            textLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            textLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            textLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            imgView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            imgView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            imgView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            imgView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
         ])
-        self.textLabel = textLabel
+        self.imgView = imgView
         
         self.contentView.backgroundColor = .cyan
-        self.textLabel.textAlignment = .center
+        //self.textLabel.textAlignment = .center
+        
+        self.contentView.layer.cornerRadius = 5
     }
     
     required init?(coder: NSCoder) {
@@ -120,8 +165,7 @@ class MyCell: UICollectionViewCell {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-
-        self.textLabel.text = nil
     }
 }
+
 
