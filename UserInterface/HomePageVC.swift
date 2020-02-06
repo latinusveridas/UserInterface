@@ -12,6 +12,16 @@ class HomePageVC: UIViewController {
     
     weak var headerFrame: UIView!
     var headerSize: CGFloat! = 130
+    
+    weak var profilPic: UIImageView!
+    var profilPicSize: CGFloat! = 50
+    
+    weak var walletPic: UIImageView!
+    var walletPicSize: CGFloat! = 50
+    
+    weak var cameraPic: UIImageView!
+    var cameraPicSize: CGFloat! = 50
+    
     weak var collectionView: UICollectionView!
     
     lazy var cellSizes: [CGSize] = {
@@ -39,6 +49,10 @@ class HomePageVC: UIViewController {
         super.loadView()
         
         setupHeader()
+        setupCamera()
+        setupWalletIcon()
+        setupProfilIcon
+        
         headerFrame.backgroundColor = .brown
         
         let layout = CollectionViewWaterfallLayout()
@@ -105,12 +119,13 @@ extension HomePageVC: CollectionViewWaterfallLayoutDelegate {
     }
 }
 
+// MARK: - Other UI elements
 extension HomePageVC {
     
     func setupHeader() {
-        
         let headerFrame = UIView(frame: .zero)
         self.view.addSubview(headerFrame)
+        
         headerFrame.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -120,52 +135,62 @@ extension HomePageVC {
             headerFrame.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
         self.headerFrame = headerFrame
-        
-        
     }
     
-}
-
-
-
-// MARK: Cell
-class MyCell: UICollectionViewCell {
-    weak var textLabel: UILabel!
-    weak var imgView: UIImageView!
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-                
-        let imgView = UIImageView()
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(imgView)
+    func setupProfilIcon() {
+        let iconFrame = UIImageView(named: "rolex1", in: Bundle.main, compatibleWith: nil)
+        self.headerFrame.addSubview(iconFrame)
+        
+        iconFrame.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            imgView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            imgView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
-            imgView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            imgView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            iconFrame.heightAnchor.constraint(equalTo: profilPicSize),
+            iconFrame.weightAnchor.constraint(equalTo: profilPicSize)
+            iconFrame.topAnchor.constraint(equalTo: self.headerFrame.topAnchor, constant: -10),
+            iconFrame.trailingAnchor.constraint(equalTo: self.headerFrame.trailingAnchor, constant: -10),
         ])
-        self.imgView = imgView
         
-        self.contentView.backgroundColor = .cyan
-        //self.textLabel.textAlignment = .center
+        iconFrame.layer.cornerRadius = 5
         
-        self.contentView.layer.cornerRadius = 5
+        self.profilPic = iconFrame
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    func setupWalletIcon() {
+        let iconFrame = UIImageView(named: "wallet", in: Bundle.main, compatibleWith: nil)
+        self.headerFrame.addSubview(iconFrame)
+        
+        iconFrame.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            iconFrame.heightAnchor.constraint(equalTo: walletPicSize),
+            iconFrame.weightAnchor.constraint(equalTo: walletPicSize)
+            iconFrame.topAnchor.constraint(equalTo: self.headerFrame.topAnchor, constant: -10),
+            iconFrame.trailingAnchor.constraint(equalTo: self.profilPic.leadingAnchor, constant: -10),
+        ])
+        
+        iconFrame.layer.cornerRadius = 5
+        
+        self.walletPic = iconFrame
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        fatalError("Interface Builder is not supported!")
+    func setupCamera() {
+        let iconFrame = UIImageView(named: "camera", in: Bundle.main, compatibleWith: nil)
+        self.headerFrame.addSubview(iconFrame)
+        
+        iconFrame.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            iconFrame.heightAnchor.constraint(equalTo: cameraPicSize),
+            iconFrame.weightAnchor.constraint(equalTo: cameraPicSize)
+            iconFrame.topAnchor.constraint(equalTo: self.headerFrame.topAnchor, constant: -10),
+            iconFrame.leadingAnchor.constraint(equalTo: self.headerFrame.leadingAnchor, constant: 10),
+        ])
+        
+        iconFrame.layer.cornerRadius = 0
+        
+        self.walletPic = iconFrame
     }
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
+    
+    
+    
 }
-
-
